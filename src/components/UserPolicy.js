@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const UserPolicy = () => {
+const UserPolicy = (accessToken) => {
 
     // Component States
     const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const UserPolicy = () => {
     const options = {
         headers: {
             'environment': "mock",
-            'Authorization': "Bearer MuYW1hem9uYXdzLmNvbVwvZXUtd2VzdC0zX3JkdldSMGs",
+            'Authorization': `Bearer ${accessToken}`,
             'Content-type': "application/json"
         }
     };
