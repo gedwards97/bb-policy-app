@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useInput } from '../hooks/input-hook';
 
 const LoginForm = ({ sendAccess }) => {
@@ -8,12 +7,6 @@ const LoginForm = ({ sendAccess }) => {
     // User inputs with custom input hook 
     const { value:username, bind:bindUsername, reset:resetUsername } = useInput('');
     const { value:password, bind:bindPassword, reset:resetPassword } = useInput('');
-
-    // Auth token
-    const  [loggedIn, setLoggedIn] = useState(false);
-    const  [accessToken, setAccessToken] = useState(null);
-
-    
 
     // COMPONENT METHODS
     
@@ -37,7 +30,8 @@ const LoginForm = ({ sendAccess }) => {
         try {
             const response = await fetch(url, options);
             const json_data = await response.json();
-            setAccessToken(json_data.access_token);
+
+            sendAccess(json_data.access_token);
         } catch (error) {
             console.log(error.message);
         }
@@ -49,15 +43,14 @@ const LoginForm = ({ sendAccess }) => {
         e.preventDefault();
         console.log("Submitting login... ");
         postLoginDetails(username, password);
-        sendAccess(accessToken);
         // Reset user detail states
         resetUsername();
         resetPassword();
     }
+   
 
     return (
         <div>
-            {loggedIn ? <h1>{accessToken}</h1> : <></>}
             <h2>User Login</h2>
             <form className="userLoginForm" onSubmit={handleLoginSubmit}>
                 <label>Username: 
@@ -66,7 +59,7 @@ const LoginForm = ({ sendAccess }) => {
                 <label>Password: 
                     <input type="password" placeholder="Password" {...bindPassword}></input>
                 </label>
-                <input type='submit' value="search"/>
+                <input type='submit' value="Sign In"/>
             </form>
         </div>
     )
