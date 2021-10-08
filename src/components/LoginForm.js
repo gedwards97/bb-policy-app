@@ -1,6 +1,6 @@
 import { useInput } from '../hooks/input-hook';
 
-const LoginForm = ({ sendAccess }) => {
+const LoginForm = ({ sendUserSession }) => {
 
     // COMPONENT STATES + CONSTANTS//
 
@@ -31,7 +31,9 @@ const LoginForm = ({ sendAccess }) => {
             const response = await fetch(url, options);
             const json_data = await response.json();
 
-            sendAccess(json_data.access_token);
+            console.log("USER DATA = ", json_data);
+
+            sendUserSession(json_data.access_token, json_data.username);
         } catch (error) {
             console.log(error.message);
         }
@@ -50,17 +52,19 @@ const LoginForm = ({ sendAccess }) => {
    
 
     return (
-        <div>
-            <h2>User Login</h2>
-            <form className="userLoginForm" onSubmit={handleLoginSubmit}>
-                <label>Username: 
-                    <input type="text" placeholder="Username" {...bindUsername}></input>
-                </label>
-                <label>Password: 
-                    <input type="password" placeholder="Password" {...bindPassword}></input>
-                </label>
-                <input type='submit' value="Sign In"/>
-            </form>
+        <div className="component">
+            <div className="container">
+                <h2 className="text-center">User Login</h2>
+                <form className="userLoginForm" onSubmit={handleLoginSubmit}>
+                    <label>Username:
+                        <input type="text" placeholder="Username" {...bindUsername}></input>
+                    </label>
+                    <label>Password:
+                        <input type="password" placeholder="Password" {...bindPassword}></input>
+                    </label>
+                    <input type='submit' value="Sign In"/>
+                </form>
+            </div>
         </div>
     )
 }
